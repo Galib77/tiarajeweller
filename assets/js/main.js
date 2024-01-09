@@ -62,17 +62,24 @@
    */
   let countdown = select('.countdown');
   const output = countdown.innerHTML;
-
+  
   const countDownDate = function() {
-    let timeleft = new Date(countdown.getAttribute('data-count')).getTime() - new Date().getTime();
-
-    let days = Math.floor(timeleft / (1000 * 60 * 60 * 24));
-    let hours = Math.floor((timeleft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    let minutes = Math.floor((timeleft % (1000 * 60 * 60)) / (1000 * 60));
-    let seconds = Math.floor((timeleft % (1000 * 60)) / 1000);
-
-    countdown.innerHTML = output.replace('%d', days).replace('%h', hours).replace('%m', minutes).replace('%s', seconds);
+    let targetDate = new Date('2024-02-01T00:00:00Z'); // Set the target date to February 1, 2024, at midnight (UTC)
+    let timeleft = targetDate.getTime() - new Date().getTime();
+  
+    if (timeleft <= 0) {
+      // If the target date has already passed or is equal to the current time, you can handle it here
+      countdown.innerHTML = 'Countdown Expired';
+    } else {
+      let days = Math.floor(timeleft / (1000 * 60 * 60 * 24));
+      let hours = Math.floor((timeleft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      let minutes = Math.floor((timeleft % (1000 * 60 * 60)) / (1000 * 60));
+      let seconds = Math.floor((timeleft % (1000 * 60)) / 1000);
+  
+      countdown.innerHTML = output.replace('%d', days).replace('%h', hours).replace('%m', minutes).replace('%s', seconds);
+    }
   }
+  
   countDownDate();
   setInterval(countDownDate, 1000);
 
